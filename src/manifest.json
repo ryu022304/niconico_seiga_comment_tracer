@@ -5,6 +5,7 @@
   "manifest_version": 2,
   "content_scripts": [{
     "matches": ["http://seiga.nicovideo.jp/seiga/*","https://seiga.nicovideo.jp/seiga/*"],
+    "css":["mystyle.css"],
     "js": ["jquery-3.3.1.min.js","content_script.js"],
     "all_frames": true
   }],

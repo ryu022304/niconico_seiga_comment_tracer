@@ -1,12 +1,12 @@
 
 var url = location.href ;
 seiga_id = url.split('/')[4]
-console.log(seiga_id);
+//console.log(seiga_id);
 
 var port = chrome.runtime.connect({name: "test"});
 port.postMessage({id: seiga_id});
 port.onMessage.addListener(function(response) {
-  console.log("receive");
+  //console.log("receive");
   var datas = response.datas;
   var comment_list = datas['comment_list']
   //console.log(comment_list);
@@ -31,25 +31,26 @@ function getArrowComment(com_list){
 
       if (arrow_len < repeat_num) {
         res_comment = com_list[i - repeat_num]['text']
-        arrow_com_list.push({id:id,resid:com_list[i - repeat_num]['id'],arrow:match[0]});
-        console.log('対象コメ：'+res_comment);
+        arrow_com_list.push({id:id,res:com_list[i - repeat_num]['text'],arrow:match[0]});
+        //console.log('対象コメ：'+res_comment);
       }
       else{
         res_comment = com_list[i - arrow_len]['text']
-        arrow_com_list.push({id:id,resid:com_list[i - arrow_len]['id'],arrow:match[0]});
-        console.log('対象コメ：'+res_comment);
+        arrow_com_list.push({id:id,res:com_list[i - arrow_len]['text'],arrow:match[0]});
+        //console.log('対象コメ：'+res_comment);
       }
       //console.log(match);
-      console.log(comment);
+      //console.log(comment);
     }
   }
   return arrow_com_list;
 }
 
 // 対象のコメントの矢印部分に参照先のリンクを付ける
+// リンクをオーバーマウスで参照先のコメントが吹き出しで表示される
 // @param a_list 矢印付きコメントのidと参照先コメントのJSONリスト
 function addLinkToArrow(a_list){
-  console.log(a_list);
+  //console.log(a_list);
   var ul_elements = document.getElementsByClassName("comment_info");
 
   for(var i in ul_elements){
@@ -58,10 +59,14 @@ function addLinkToArrow(a_list){
 
     for(var j in a_list){
       if(a_list[j].id == id){
+        var res_com = a_list[j].res;
+        //console.log(res_com);
         var match = text.match(/^(↑+)\**([0-9]*)(.*)/);
         ul_elements[i]['children'].item(4).innerHTML =
-        '<a href=""><font color="red">'+match[1]+match[2]
-        +'</font></a>'+match[3];
+        '<div class="cp_tooltip"><a href="#"><font color="red">'
+        +match[1]+match[2]
+        +'</font></a><span class="cp_tooltiptext">'
+        +res_com+'</span></div>'+match[3];
       }
     }
   }
