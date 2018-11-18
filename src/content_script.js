@@ -1,10 +1,14 @@
+// URLから静画IDの取得、対象コメントに対するHTML要素の追加等を行う
 
 var url = location.href ;
 var seiga_id = url.split('/')[4];
 var seiga_id = seiga_id.split('?')[0];
 
-var port = chrome.runtime.connect({name: "test"});
+// backgroung.jsへ静画IDの送付
+var port = chrome.runtime.connect({name: "niconico_seiga_comment_tracer"});
 port.postMessage({id: seiga_id});
+
+// background.jsから全静画コメントを受信して処理を行う
 port.onMessage.addListener(function(response) {
   var datas = response.datas;
   var comment_list = datas['comment_list'];
@@ -69,6 +73,7 @@ function addLinkToArrow(a_list){
     text = text.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) - 65248);
     });
+    // 矢印付きコメントにマウスオーバー時の処理を追加
     for(var j in a_list){
       if(a_list[j].id == id){
         var res_com = a_list[j].res;
