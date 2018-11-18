@@ -57,6 +57,10 @@ function addLinkToArrow(a_list){
   var ul_elements = document.getElementsByClassName("comment_info");
 
   for(var i in ul_elements){
+    // コメント欄以外に使われているcomment_infoの要素を取ってきた時はスルーする
+    if(typeof ul_elements[i]['children'] == 'undefined'){
+      continue;
+    }
     // コメントID
     var id = ul_elements[i]['children'].item(2).innerText.match(/[0-9]+/)[0];
     // コメント文
