@@ -5,13 +5,24 @@
   "manifest_version": 2,
   "content_scripts": [{
     "matches": ["http://seiga.nicovideo.jp/seiga/*","https://seiga.nicovideo.jp/seiga/*"],
-    "css":["mystyle.css"],
-    "js": ["jquery-3.3.1.min.js","content_script.js"],
+    "css":["css/mystyle.css"],
+    "js": ["src/jquery-3.3.1.min.js","src/content_script.js"],
     "all_frames": true
   }],
+  "icons" : {
+    "16" : "icons/icon16.png",
+    "48" : "icons/icon48.png",
+    "128" : "icons/icon128.png"
+  },
+  "browser_action" : {
+    "default_icon" : {
+      "19" : "icons/icon19.png",
+      "38" : "icons/icon38.png"
+    }
+  },
   "background": {
     "scripts": [
-      "jquery-3.3.1.min.js","background.js"
+      "src/jquery-3.3.1.min.js","src/background.js"
     ],
     "persistent": false
   },
