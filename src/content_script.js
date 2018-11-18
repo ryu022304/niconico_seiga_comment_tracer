@@ -1,12 +1,13 @@
 
 var url = location.href ;
-seiga_id = url.split('/')[4]
+var seiga_id = url.split('/')[4];
+var seiga_id = seiga_id.split('?')[0];
 
 var port = chrome.runtime.connect({name: "test"});
 port.postMessage({id: seiga_id});
 port.onMessage.addListener(function(response) {
   var datas = response.datas;
-  var comment_list = datas['comment_list']
+  var comment_list = datas['comment_list'];
   var arrow_list = getArrowComment(comment_list);
   addLinkToArrow(arrow_list);
 });
@@ -48,7 +49,6 @@ function getArrowComment(com_list){
 // リンクをオーバーマウスで参照先のコメントが吹き出しで表示される
 // @param a_list 矢印付きコメントのidと参照先コメントのJSONリスト
 function addLinkToArrow(a_list){
-  //console.log(a_list);
   var ul_elements = document.getElementsByClassName("comment_info");
 
   for(var i in ul_elements){
